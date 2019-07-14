@@ -6,14 +6,15 @@ var primes=[]
 
 function setUp() {
   var f=[]
-  for (var i=0; 2*i+3<10000; ++i)
+  var precalc=10000
+  for (var i=0; 2*i+3<precalc; ++i)
     f.push(true);
   primes.push(2)
-  for (var i=0; 2*i+3<10000; ++i) {
+  for (var i=0; 2*i+3<precalc; ++i) {
     if (f[i]) {
       var p=2*i+3;
       primes.push(p);
-      for (var j=i+p; 2*j+3<10000; j+=p)
+      for (var j=i+p; 2*j+3<precalc; j+=p)
         f[j]=false;
     }
   }
@@ -30,9 +31,10 @@ function isPrime(n) {
 function primeDays(year) {
   var ret=[]
   var y=year;
+  var dayinsecs=24*60*60*1000
   var baseDay=(new Date(year,0,1)).getTime()
   for (var i=0; ; ++i) {
-    var day=new Date(baseDay+24*60*60*1000*i);
+    var day=new Date(baseDay+dayinsecs*i);
     if (day.getFullYear()!=year)
       break;
     var dayInt=+(""+year+("0"+(1+day.getMonth())).slice(-2)
